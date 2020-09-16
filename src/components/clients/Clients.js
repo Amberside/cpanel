@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Row, Col, Table } from 'react-bootstrap';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Spinner from '../layout/Spinner';
 
 const Clients = props => {
@@ -18,7 +19,10 @@ const Clients = props => {
     <Fragment>
       <Row>
         <Col md={6}>
-          <h2>Clients</h2>
+          <h2>
+            <FontAwesomeIcon icon='users' size='lg' />
+            {' '}Clients
+          </h2>
         </Col>
         <Col md={6}>
           <h5 className='text-right text-secondary'>
@@ -44,7 +48,8 @@ const Clients = props => {
               <td>
                 <Link to={`/client/${client.id}`}
                   className="btn btn-secondary text-light">
-                    Details
+                  <FontAwesomeIcon icon='question-circle' size='lg' />
+                  {' '}Details
                 </Link>
               </td>
             </tr>

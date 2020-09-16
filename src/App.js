@@ -3,6 +3,10 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Container } from 'react-bootstrap'
 
+// Font awesome stuff
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faUsers, faQuestionCircle, faPencilAlt, faArrowCircleLeft, 
+  faLock} from '@fortawesome/free-solid-svg-icons';
 
 // Import of custom components
 import AppNavBar from './components/layout/AppNavBar';
@@ -13,6 +17,10 @@ import ClientDetails from './components/clients/ClientDetails';
 import Login from './components/auth/Login';
 
 const App = () => {
+  // Creat the font awesome library
+  // fa-users fa-question-circle fa-pencil-alt 
+  // fa-arrow-circle-left fa-lock
+  library.add(faUsers, faQuestionCircle, faPencilAlt, faArrowCircleLeft, faLock);
   return (
     <Router>
       <AppNavBar />
