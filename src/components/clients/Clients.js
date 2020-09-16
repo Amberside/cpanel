@@ -59,4 +59,4 @@ Clients.propTypes = {
   clients: PropTypes.array,
 }
 
-export default Clients
+export default Clients;
