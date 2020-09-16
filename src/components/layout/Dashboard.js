@@ -1,6 +1,9 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 
+// Import custom components 
+import Sidebar from './Sidebar'
+
 const Dashboard = () => {
   return (
     <Row>
@@ -8,7 +11,7 @@ const Dashboard = () => {
         <h1> Clients</h1>
       </Col>
       <Col md={2}>
-        <h1> Sidebar</h1>
+        <Sidebar />
       </Col>
     </Row>
   )
