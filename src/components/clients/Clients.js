@@ -1,5 +1,5 @@
 // rafcp
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Row, Col, Table } from 'react-bootstrap';
@@ -12,13 +12,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Spinner from '../layout/Spinner';
 
 const Clients = ({ clients }) => {
+  const [ totalOwed, changeTotal] = useState(null);
   
   // Database listener pass in the collection we are listening to
   useFirestoreConnect('clients');
   
   useEffect(() => {
-    
-  });
+    // if we have clients get the total owed
+    if (clients) {
+      const total = clients.reduce((total, client) => {
+        return total + parseFloat(client.balance.toString())
+      }, 0);
+      changeTotal(total);
+      console.log(total);
+    } else {
+      changeTotal(0);
+    }
+  }, [clients]);
   
   if (clients) {
     return (
