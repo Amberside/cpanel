@@ -63,7 +63,7 @@ const Clients = ({ clients }) => {
           </tbody>
         </Table>
       </Fragment>
-    )
+    );
   } else {
     return <Spinner />
   }
