@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Spinner from '../layout/Spinner';
 
 const ClientDetails = (props) => {
   const [ balDetails, setBalDetails ] = useState({
@@ -60,48 +61,83 @@ const ClientDetails = (props) => {
         </InputGroup.Append>
       </Form>
     )
+  } else {
+    balanceForm = null;
   }
   
-  <Fragment>
-    <Row>
-      <Col md={6}>
-        <Link to='/' className='btn btn-secondary mb-2'>
-          <FontAwesomeIcon icon='arrow-circle-left' size='lg' />
-          {' '}Go to Dashboard
-        </Link>
-      </Col>
-      <Col md={6}>
-        <ButtonGroup className='btn-group float-right'>
-          <Button className='btn btn-info px-3'>
-            <Link to={`/client/edit/${client.id}`} className='btn text-light'>Edit</Link>
-          </Button>
-          <Button className='btn btn-danger ml-1'>
-            Delete
-          </Button>
-        </ButtonGroup>
-      </Col>
-      <hr />
-      <Card>
-        <Card.Header>
-          <h3>{client.firstName}{' '}{client.lastName}</h3>
-        </Card.Header>
-        <Card.Body>
-          <Row>
-            <Col md={8} sm={6}>
-              <h4>
-                Client ID:{' '}
-                <span className='text-secondary'>
-                  {client.id}
-                </span>
-              </h4>
-            </Col>
-          </Row>
-        </Card.Body>
-      </Card>
-    </Row>
-  </Fragment>
-  )
-}
+  if(!clients) {
+    return <Spinner />
+  } else {
+    const client = clients[0];
+    return (
+      <Fragment>
+        <Row>
+          <Col md={6}>
+            <Link to='/' className='btn btn-secondary mb-2'>
+              <FontAwesomeIcon icon='arrow-circle-left' size='lg' />
+              {' '}Go to Dashboard
+            </Link>
+          </Col>
+          <Col md={6}>
+            <ButtonGroup className='btn-group float-right'>
+              <Button className='btn btn-info px-3'>
+                <Link to={`/client/edit/${client.id}`} className='btn text-light'>Edit</Link>
+              </Button>
+              <Button className='btn btn-danger ml-1'>
+                Delete
+              </Button>
+            </ButtonGroup>
+          </Col>
+          <hr />
+          <Card>
+            <Card.Header>
+              <h3>{client.firstName}{' '}{client.lastName}</h3>
+            </Card.Header>
+            <Card.Body>
+              <Row>
+                <Col md={8} sm={6}>
+                  <h4>
+                    Client ID:{' '}
+                    <span className='text-secondary'>
+                      {client.id}
+                    </span>
+                  </h4>
+                </Col>
+                <Col md={4} sm={6}>
+                  <h3 className='pull-right'>
+                    Balance: {' '}
+                  <span className= {classnames (client.balance > 0 ?
+                    'text-danger' : 'text-success')}>
+                    {client.balance}
+                    </span>
+                    <small>
+                      <a href='#!' onClick={() => setBalDetails ({
+                        ...balDetails, showBalanceUpdate: !showBalanceUpdate
+                      })}>
+                        {' '}<FontAwesomeIcon icon='pencil-alt' />
+                      </a>
+                    </small>
+                  </h3>
+                  { balanceForm }
+                </Col>
+              </Row>
+              <hr />
+              <ListGroup>
+                <ListGroup.Item>
+                  Client Email: {client.email}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  Client Phone: {client.phone}
+                </ListGroup.Item>
+              </ListGroup>
+            </Card.Body>
+          </Card>
+        </Row>
+      </Fragment>
+    )
+  }
+}  
+
 
 const enhance = compose(
   withFirestore,
