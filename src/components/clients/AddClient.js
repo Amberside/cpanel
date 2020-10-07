@@ -1,10 +1,13 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useHistory } from 'react';
 import { Link } from 'react-router-dom';
 import { Row, Col, Card, Form, Button } from 'react-bootstrap';
+// Redux imports 
+import { compose } from 'redux';
+import { withFirestore, useFirestoreConnect , useFirestore } from 'react-redux-firebase';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const AddClient = () => {
+const AddClient = (props, { clients }) => {
   
   const [clientDetails, setClientDetails ] = useState ({
     firstName: '',
@@ -16,15 +19,30 @@ const AddClient = () => {
   
   const { firstName, lastName, balance, email, phone } = clientDetails;
   
+  // add in database config and listeners
+  const firestore = useFirestore();
+  useFirestoreConnect('clients');
+  const history = useHistory();
+  
   const onChange = e => setClientDetails({
     ...clientDetails, [e.target.name]: e.target.value
   });
   
   const onSubmit = e => {
-    console.log(e)
     e.preventDefault();
-    console.log('Submit clicked');
-    console.log(clientDetails);
+    // console.log('Submit clicked');
+    // console.log(clientDetails);
+    const newClient = clientDetails;
+    
+    // if balance is not entered make it 0. 
+    if (newClient.balance === ''){
+      newClient.balance = 0;
+    }
+    // add the new client to the database.  
+    firestore.collection('clients').add(newClient)
+      .then(() => console.log('Client added'));
+    // redirect user to the dashboard after adding a client.
+    history.push('/');
   }
   
   return (
@@ -103,4 +121,8 @@ const AddClient = () => {
   )
 }
 
-export default AddClient;
+const enhance = compose(
+  withFirestore
+);
+
+export default enhance(AddClient);
