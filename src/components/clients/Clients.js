@@ -42,7 +42,10 @@ const Clients = ({ clients }) => {
           </Col>
           <Col md={6}>
             <h5 className='text-right text-secondary'>
-              Total Owed: $274
+              Total Owed: {' '}
+              <span className="text-primary">
+                ${parseFloat(totalOwed).toFixed(2)}
+              </span>
             </h5>
           </Col>
         </Row>
