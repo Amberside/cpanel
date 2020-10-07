@@ -22,6 +22,7 @@ const ClientDetails = (props) => {
   const firestore = useFirestore();
   const history = useHistory();
   
+  // the database listener is listening to the clients collection / document with the id we passed in.
   useFirestoreConnect(props => [
     { collection: 'clients', doc: id},
     ], connect((state, props) => ({
@@ -68,6 +69,7 @@ const ClientDetails = (props) => {
   if(!clients) {
     return <Spinner />
   } else {
+    // get the current client - as the array is ordered it will be the first element in the array.
     const client = clients[0];
     return (
       <Fragment>
