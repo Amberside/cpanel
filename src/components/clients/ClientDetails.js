@@ -38,7 +38,14 @@ const ClientDetails = (props) => {
   
   const balanceSubmit = e => {
     e.preventDefault();
-    console.log('Submit')
+    console.log('Submit');
+    const updClient = {
+      balance: parseFloat(balanceUpdateAmount)
+    }
+    console.log(updClient);
+    // Update the balance in the database with the doc id suppied
+    firestore.collection('clients').doc(id).update(updClient)
+      .then(() => console.log('Client balance updated'));
   }
   
   const onDeleteClick = (e) => {
