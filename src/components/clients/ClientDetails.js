@@ -41,6 +41,15 @@ const ClientDetails = (props) => {
     console.log('Submit')
   }
   
+  const onDeleteClick = (e) => {
+    console.log("OOoops... Delete");
+    // Delete the client from the database
+    firestore.collection('clients').doc(id).delete()
+      .then(() => console.log("Client deleted"));
+    // redirect back to the Dashboard
+    history.push('/');
+  }
+  
   let balanceForm = null;
   
   if(showBalanceUpdate){
@@ -85,7 +94,10 @@ const ClientDetails = (props) => {
               <Button className='btn btn-info px-3'>
                 <Link to={`/client/edit/${client.id}`} className='btn text-light'>Edit</Link>
               </Button>
-              <Button className='btn btn-danger ml-1'>
+              <Button 
+                className='btn btn-danger ml-1'
+                onClick={e => onDeleteClick(e)}
+              >
                 Delete
               </Button>
             </ButtonGroup>
