@@ -13,6 +13,7 @@ const Login = ({ firebase }) => {
   });
   
   const { email, password } = loginData;
+  const history = useHistory();
   
   const onChange = e => setLoginData({
     ...loginData, [e.target.name]: e.target.value
@@ -21,6 +22,15 @@ const Login = ({ firebase }) => {
   const onSubmit = e => {
     e.preventDefault();
     console.log('Submit - auth');
+    // authenticating with firebase - using email and password
+    firebase.auth().signInWithEmailAndPassword(email, password)
+      .then( res => {
+        if (res.user ) console.log('logged in');
+        history.push('/');
+      })
+      .catch( e => {
+        console.log(e.message);
+      })
   }
   
   return (
@@ -62,4 +72,12 @@ const Login = ({ firebase }) => {
   )
 }
 
-export default Login;
+const enhance = compose(
+  withFirestore,
+  connect((state) => ({
+    auth: state.firebase.auth,
+    profile: state.firebase.profile
+  }))
+)
+
+export default enhance(Login);
