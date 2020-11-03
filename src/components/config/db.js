@@ -13,8 +13,8 @@
     appId: process.env.REACT_APP_APP_ID
   };
   // Initialize Firebase
-  firebase.initializeApp(dbaseConfig);
+  const firebaseApp = firebase.initializeApp(dbaseConfig);
   // Intialize Firestore
-  firebase.firestore();
+  firebaseApp.firestore();
   
-export default firebase;
+export default firebaseApp;
