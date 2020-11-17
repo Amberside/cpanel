@@ -21,12 +21,15 @@ import AddClient from './components/clients/AddClient';
 import EditClient from './components/clients/EditClient';
 import ClientDetails from './components/clients/ClientDetails';
 import Login from './components/auth/Login';
+import PrivateRoute from './components/Routes/PrivateRoute';
 
-const App = () => {
+const App = (props) => {
+  console.log(props)
   // Create the font awesome library
   // fa-users fa-question-circle fa-pencil-alt 
   // fa-arrow-circle-left fa-lock
   library.add(faUsers, faQuestionCircle, faPencilAlt, faArrowCircleLeft, faLock);
+  
   return (
     <Provider store={store}>
       <ReactReduxFirebaseProvider {...rrfProps}>
@@ -34,7 +37,9 @@ const App = () => {
           <AppNavBar />
           <Container>
             <Switch>
-              <Route exact path='/' component={Dashboard} />
+              <PrivateRoute 
+                exact path='/' component={Dashboard} 
+              />
               <Route exact path='/client/add' component={AddClient} />
               <Route exact path='/client/:id' component={ClientDetails} />
               <Route exact path='/client/edit/:id' component={EditClient} />
@@ -47,4 +52,10 @@ const App = () => {
   );
 }
 
-export default App;
+// const enhance = compose(
+//   withFirestore,
+//   connect((state) => ({
+//     auth: state.firebase.auth,
+//   }))
+// )
+export default (App);

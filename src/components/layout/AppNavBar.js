@@ -4,12 +4,18 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withFirestore } from 'react-redux-firebase';
 import { useHistory } from 'react-router-dom';
+import { useAuth } from '../hooks/authDb';
 
 
 const AppNavBar = ({ firebase, auth }) => {
   
   const history = useHistory();
   
+  const currentUser = useAuth();
+  if (currentUser){
+    console.log(auth);
+  }
+
   const logOut = e => {
     console.log('logout!!!');
     // log out from the database
@@ -38,7 +44,7 @@ const AppNavBar = ({ firebase, auth }) => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ml-auto">
-          { auth.uid !== undefined ? loggedIn : loggedOut }  
+          { currentUser ? loggedIn : loggedOut }  
         </Nav>
       </Navbar.Collapse>
     </Navbar>

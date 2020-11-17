@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Row, Col, Form, Card, Button } from 'react-bootstrap';
+import { Row, Col, Form, Card, Button, Alert } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useHistory } from 'react-router-dom';
 import { compose } from 'redux';
@@ -11,7 +11,8 @@ const Login = ({ firebase }) => {
     email: '',
     password: ''
   });
-  
+  const [error, setError] = useState('');
+
   const { email, password } = loginData;
   const history = useHistory();
   
@@ -30,6 +31,7 @@ const Login = ({ firebase }) => {
       })
       .catch( e => {
         console.log(e.message);
+        setError(e.message);
       })
   }
   
@@ -42,6 +44,7 @@ const Login = ({ firebase }) => {
               <FontAwesomeIcon icon='lock' className='text-primary' />
               {' '}<span className='text-primary'>Login</span>
             </h1>
+            { error && <Alert variant="danger" >{error}</Alert>}
             <Form onSubmit={e => onSubmit(e)}>
               <Form.Group controlId="email">
                 <Form.Label>Email</Form.Label>
